@@ -3,9 +3,10 @@ export LD_LIBRARY_PATH=$APP_ROOT/openresty/lib:$LD_LIBRARY_PATH:$APP_ROOT/openre
 
 find $APP_ROOT
 
-mkdir -p $APP_ROOT/nginx/logs
-touch $APP_ROOT/nginx/logs/error.log
-touch $APP_ROOT/nginx/logs/access.log
+mkdir -p $APP_ROOT/openresty/nginx/logs
+
+touch $APP_ROOT/openresty/nginx/logs/error.log
+touch $APP_ROOT/openresty/nginx/logs/access.log
 
 conf_file=$APP_ROOT/openresty/nginx/nginx/conf/nginx.conf
 
