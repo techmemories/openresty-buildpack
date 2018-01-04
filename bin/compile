@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir>
+
+set -e            # fail fast
+set -o pipefail   # do not ignore exit codes when piping output
+# set -x          # enable debugging
+
+# Configure directories
+build_dir=$1
+cache_dir=$2
+
+compile_buildpack_dir=$(cd $(dirname $0); cd ..; pwd)
+compile_buildpack_bin=$compile_buildpack_dir/bin
+
+# Load some convenience functions like status(), echo(), and indent()
+source $compile_buildpack_dir/bin/common.sh
+
+mv $compile_buildpack_dir/openresty.tar.gz /tmp
+compile_nginx_tgz="/tmp/openresty.tar.gz"
+cd $build_dir
+
+root_dir=${root_dir:-.}
+
+status "Copying project files into scripts/"
+shopt -s extglob
+root_dir_absolute=`cd $root_dir 2>/dev/null && pwd -P`
+if [ ${build_dir}/scripts != ${root_dir_absolute} ]; then
+  tmp_dir=`mktemp -d /tmp/XXXXX`
+
+  if [[ "$host_dotfiles" = true ]]; then
+    shopt -s dotglob
+    mv $root_dir_absolute/!(Staticfile|Staticfile.auth|manifest.yml|stackato.yml|.profile|.|..) $tmp_dir || true
+  else
+    mv $root_dir_absolute/!(Staticfile|Staticfile.auth|manifest.yml|stackato.yml) $tmp_dir || true
+  fi
+
+  rm -rf $build_dir/scripts
+  mv $tmp_dir  $build_dir/scripts
+fi
+shopt -u extglob
+shopt -u dotglob
+
+
+status "Setting up nginx"
+tar xzf $compile_nginx_tgz
+cp -f $compile_buildpack_dir/conf/nginx.conf openresty/nginx/conf/nginx.conf
+cp -f $compile_buildpack_dir/conf/mime.types openresty/nginx/conf/mime.types
+cp -f $compile_buildpack_dir/conf/gzip.types openresty/nginx/conf/gzip.types
+
+mkdir -p openresty/nginx/cache/tmp
+
+[[ -f $build_dir/scripts/nginx.conf ]] && mv $build_dir/scripts/nginx.conf openresty/nginx/conf/nginx.conf
+[[ -f $build_dir/scripts/mime.types ]] && mv $build_dir/scripts/mime.types openresty/nginx/conf/mime.types
+
+cp $compile_buildpack_bin/boot.sh .
