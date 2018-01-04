@@ -15,6 +15,7 @@ compile_buildpack_bin=$compile_buildpack_dir/bin
 # Load some convenience functions like status(), echo(), and indent()
 source $compile_buildpack_dir/bin/common.sh
 
+ls -l $compile_buildpack_dir
 mv $compile_buildpack_dir/openresty.tar.gz /tmp
 compile_nginx_tgz="/tmp/openresty.tar.gz"
 cd $build_dir
