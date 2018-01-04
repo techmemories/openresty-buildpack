@@ -43,6 +43,7 @@ shopt -u dotglob
 
 status "Setting up nginx"
 status "compile_buildpack_dir $compile_buildpack_dir $compile_nginx_tgz"
+tar tvf $compile_nginx_tgz
 tar xzf $compile_nginx_tgz
 cp -f $compile_buildpack_dir/conf/nginx.conf openresty/nginx/conf/nginx.conf
 cp -f $compile_buildpack_dir/conf/mime.types openresty/nginx/conf/mime.types
