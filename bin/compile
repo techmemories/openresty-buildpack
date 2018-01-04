@@ -15,7 +15,7 @@ compile_buildpack_bin=$compile_buildpack_dir/bin
 # Load some convenience functions like status(), echo(), and indent()
 source $compile_buildpack_dir/bin/common.sh
 
-ls -l $compile_buildpack_dir
+
 mv $compile_buildpack_dir/openresty.tar.gz /tmp
 compile_nginx_tgz="/tmp/openresty.tar.gz"
 cd $build_dir
@@ -46,13 +46,9 @@ status "Setting up nginx"
 status "compile_buildpack_dir $compile_buildpack_dir $compile_nginx_tgz"
 tar tvf $compile_nginx_tgz
 tar xzf $compile_nginx_tgz
-cp -f $compile_buildpack_dir/conf/nginx.conf openresty/nginx/conf/nginx.conf
-cp -f $compile_buildpack_dir/conf/mime.types openresty/nginx/conf/mime.types
-cp -f $compile_buildpack_dir/conf/gzip.types openresty/nginx/conf/gzip.types
+
+cp -f $compile_buildpack_dir/conf/* openresty/nginx/nginx/conf/*
 
 mkdir -p openresty/nginx/cache/tmp
-
-[[ -f $build_dir/scripts/nginx.conf ]] && mv $build_dir/scripts/nginx.conf openresty/nginx/conf/nginx.conf
-[[ -f $build_dir/scripts/mime.types ]] && mv $build_dir/scripts/mime.types openresty/nginx/conf/mime.types
 
 cp $compile_buildpack_bin/boot.sh .
