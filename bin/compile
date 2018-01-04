@@ -47,7 +47,7 @@ status "compile_buildpack_dir $compile_buildpack_dir $compile_nginx_tgz"
 tar tvf $compile_nginx_tgz
 tar xzf $compile_nginx_tgz
 
-cp -fr $compile_buildpack_dir/conf/* openresty/nginx/nginx/conf/*
+#cp -fr $compile_buildpack_dir/conf/* openresty/nginx/nginx/conf/*
 
 mkdir -p openresty/nginx/cache/tmp
 
