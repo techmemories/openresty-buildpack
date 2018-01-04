@@ -1,5 +1,6 @@
 export APP_ROOT=$HOME
-export LD_LIBRARY_PATH=$APP_ROOT/openresty/lib:$LD_LIBRARY_PATH:$APP_ROOT/openresty/luajit/lib
+export LD_LIBRARY_PATH=$APP_ROOT/openresty/lib:$LD_LIBRARY_PATH:$APP_ROOT/openresty/luajit/lib:$APP_ROOT/openresty/nginx/lib:$LD_LIBRARY_PATH:$APP_ROOT/openresty/nginx/luajit/lib
+
 
 find $APP_ROOT
 
