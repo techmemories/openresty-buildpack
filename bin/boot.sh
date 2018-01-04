@@ -1,6 +1,8 @@
 export APP_ROOT=$HOME
 export LD_LIBRARY_PATH=$APP_ROOT/openresty/lib:$LD_LIBRARY_PATH
 
+find $APP_ROOT
+
 mkdir -p $APP_ROOT/nginx/logs
 touch $APP_ROOT/nginx/logs/error.log
 touch $APP_ROOT/nginx/logs/access.log
